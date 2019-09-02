@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+  <!-- Page Header -->
+  <header class="masthead" style='background-image: url("{{ url_for('static', filename='img/home-bg.jpg') }}")'>
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>ALPHA Blog</h1>
+            <span class="subheading">A Blog Theme by ALPHA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+  
+        {% endwith %}
+
+
+{% for post in posts.items %}
+        <div class="post-preview">
+          <a href="{{ url_for('post', post_id=post.id) }}">
+            <h2 class="post-title">
+              {{ post.title }}
+            </h2>
+            <h3 class="post-subtitle">
+              {{ post.subtitle }}
+            </h3>
+          </a>
+          <p class="post-meta">Posted by
+            <a href="#">{{ post.user.name }}</a>
+            on {{ post.post_date.strftime('%B-%d-%Y') }}</p>
+        </div>
+        <hr>
+{% endfor %}
+
+
+
+
+        
+       
+        <!-- Pager -->
+        <div class="clearfix">
+
+          {% if next_url  %}
+            <a class="btn btn-primary float-right" href="{{ next_url }}">Older Posts &rarr;</a>
+          {% endif %}
+          
+          {% if prev_url  %}
+            <a class="btn btn-primary float-right" href="{{ prev_url }}">&larr; Newer Posts </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+{% endblock %}
